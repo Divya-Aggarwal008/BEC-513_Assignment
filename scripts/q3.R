@@ -1,0 +1,8 @@
+library(dplyr)
+args = commandArgs(trailingOnly = TRUE)
+file_list = readLines(args[1])
+data_frames = lapply(file_list, function(file)
+  { read.table("data/q3_first.tsv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+})
+merged_data = Reduce(function(x, y) inner_join(x, y, by = "V1"), data_frames)
+write.table(merged_data, file = "", sep = "\t", row.names = FALSE, col.names = FALSE, quote = FALSE)
